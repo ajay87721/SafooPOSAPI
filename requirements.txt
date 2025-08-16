@@ -1,5 +1,5 @@
 fastapi==0.95.0
-uvicorn[standard]
+
 pyodbc
 Flask==2.3.3
 gunicorn
