@@ -1,10 +1,18 @@
 # Use official Python image
 FROM python:3.10-slim
 
+# Install unixODBC and libodbc2 (required for pyodbc)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        unixodbc \
+        unixodbc-dev \
+        odbcinst \
+        && rm -rf /var/lib/apt/lists/*
+
 # Set working directory
 WORKDIR /app
 
-# Copy requirements first for better caching
+# Copy requirements first
 COPY requirements.txt .
 
 # Install dependencies
