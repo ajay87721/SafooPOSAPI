@@ -1,28 +1,29 @@
-# Use official Python image
+# Use a Debian-based Python image
 FROM python:3.10-slim
 
-# Install unixODBC and libodbc2 (required for pyodbc)
+# Install unixODBC (required for pyodbc to work)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         unixodbc \
         unixodbc-dev \
+        libodbc1 \
         odbcinst \
         && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
 
-# Copy requirements first
+# Copy requirements
 COPY requirements.txt .
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the app
-COPY . .
+# Copy your app
+COPY main.py .
 
 # Expose port
 EXPOSE 8000
 
-# Run the app
+# Run FastAPI app with Uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
