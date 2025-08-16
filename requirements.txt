@@ -1,0 +1,4 @@
+fastapi==0.95.0
+uvicorn[standard]
+pyodbc
+python-dotenv  # optional if you want to load env vars
